@@ -36,6 +36,5 @@ def create_group(sender, instance, **kwargs):
                                            object_id=instance.id,
                                            defaults={
                                                'group': group,
-                                               'content_type': ct,
-                                               'object_id': instance.id
+                                               'content_object': instance
                                            })
