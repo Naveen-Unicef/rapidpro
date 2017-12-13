@@ -640,7 +640,7 @@ class APIToken(models.Model):
 
     key = models.CharField(max_length=40, primary_key=True)
 
-    user = models.ForeignKey(User, related_name='api_tokens')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='api_tokens')
 
     org = models.ForeignKey(Org, related_name='api_tokens')
 
