@@ -244,6 +244,9 @@ INSTALLED_APPS = (
     'lab.core',
 )
 
+if DEBUG:
+    INSTALLED_APPS += ('django_extensions', )
+
 # the last installed app that uses smartmin permissions
 PERMISSIONS_APP = 'temba.airtime'
 
