@@ -19,3 +19,14 @@ RapidPro has dual copyright holders of UNICEF and Nyaruka.
 
 The software is provided under AGPL-3.0. Contributions to this project are accepted under the same license.
 
+# Steps to running
+
+```
+cd docker && docker build -t rapidpro/database . && cd ..
+docker container create --name rapidpro-database rapidpro/database
+docker container start rapidpro-database && docker container run -d redis
+yarn global add coffee less
+yarn install
+python manage.py migrate
+python manage.py runserver
+```
