@@ -52,16 +52,6 @@ INDIA_STATES = (('AP', 'Andhra Pradesh'),
                 ('PY', 'Pondicherry'),
                 )
 
-"""
-A ideia é injetar uma configuração de banco para cada usuário e depois tentar setar essa configuração como "padrão"
-daquele usuário. Dessa forma nós conseguiremos setar created_by dinamicamente diretamente no banco de dados, e,
-também poderemos recuperar o estado do usuário diretamente no banco de dados e assim só retornar os registros
-que tem vínculo com aquele estado.
-
-No rapidpro os estados são vinculados a algum registro(como Org) ou podem ser utilizados globalmente?
-"""
-
-
 class UserState(models.Model):
     """
     Essa classe precisa ser reformulada.
