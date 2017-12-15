@@ -168,7 +168,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    #'lab.middleware.DatabaseUserMiddleware',
+    #'lab.middleware.DatabaseUserMiddleware'
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'temba.middleware.BrandingMiddleware',
     'temba.middleware.OrgTimezoneMiddleware',
