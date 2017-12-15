@@ -1,0 +1,5 @@
+-r pip-freeze
+werkzeug
+ipython
+django-debug-toolbar
+django-extensions
