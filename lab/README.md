@@ -25,12 +25,12 @@ a melhor**), porque dessa forma as row restrictions não serão aplicadas.
 # Desafios
 ## Como fazer com que cada usuário veja apenas os dados do seu estado?
 ### Proposta 1
-Cada organização(temba.org.Org) pode ser vinculada a um país(temba.locations.BoundaryAlias),
-**mas esse vínculo é opcional**.
+Cada organização(**temba.org.Org**) pode ser vinculada a um país(**temba.locations.BoundaryAlias**),
+_que atualmente é opcional_.
 
 Ao cadastrar um novo usuário para uma Org, temos que vinculá-lo a um estado do país da Org.
 Precisamos armazenar o id do BoundaryAlias e a sigla do estado para que o postgres possa aplicar
 a row restriction.
 
-> Devemos deixar essa regra o mais simples possível, pois excesso de complexidade acarretará em
-  perda de desempenho. 
+> Devemos deixar essa regra o mais simples possível, porque ela será traduzida em uma row restriction,
+  e excesso de complexidade acarretará em perda de desempenho. 
