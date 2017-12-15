@@ -2,6 +2,9 @@
 * Ao criar um novo usuário, um usuário com o mesmo username é criado a nível de
 banco de dados. A senha desse usuário é a mesma usada no database default do
 settings.py.
+> Caso o username seja um email, nós fazemos algumas conversões por questões de 
+  compatibilidade com o sistema de autenticação do postgres.
+  Ex: foo@bar.com => foo__at__bar__dot__com
 * Injetamos um custom manager(BlackMage) em cada model. Atualmente ele não faz
 nada de especial, está sendo usado apenas como prova conceitual.
 * Uma vez logado, injetamos nas configurações do Django, uma nova configuração
