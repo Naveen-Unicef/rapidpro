@@ -10,6 +10,8 @@ from django.db import models
 from django.db.models.signals import post_delete, post_save
 from django.dispatch.dispatcher import receiver
 
+from lab.utils import database_user_exists
+from lab.utils import username_to_database
 from temba.flows.models import Flow
 from temba.orgs.models import Org
 
@@ -96,26 +98,6 @@ def create_group(sender, instance, **kwargs):
                                                'content_object': instance
                                            })
 
-def username_to_database(username):
-    """
-    Convert username to format accepted by database username.
-
-    The database cannot accept username in email format, because that we change some characters:
-    @ => __at__
-    . => __dot__
-    foo@bar.com => foo__at__bar__dot__com
-    """
-    return username.replace('@', '__at__').replace('.', '__dot__')
-
-def database_user_exists(username):
-    """
-    Check if postgres database user exists.
-    """
-    with connection.cursor() as cursor:
-        select_user_sql = "SELECT COUNT(*) FROM pg_catalog.pg_user WHERE usename = %s"
-        cursor.execute(select_user_sql, [username, ])
-        return cursor.fetchone()[0] > 0
-
 
 @receiver(post_save, sender=User)
 def create_database_role(instance, **kwargs):
@@ -138,6 +120,7 @@ def create_database_role(instance, **kwargs):
             for grant_sql in grant_commands:
                 grant_sql = grant_sql % username
                 cursor.execute(grant_sql)
+
 
 @receiver(post_delete, sender=User)
 def drop_database_role(instance, **kwargs):
