@@ -16,7 +16,7 @@ class LabConfig(AppConfig):
         Dynamic injection of our custom model(BlackMage).
         """
         global project_models
-        project_models = (model for model in apps.get_models(True) if 'temba.' in model.__module__)
+        project_models = (model for model in apps.get_models(True) if self.name not in model.__module__)
 
         class BlackMage(Manager):
 
