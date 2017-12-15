@@ -28,7 +28,7 @@ a melhor**), porque dessa forma as row restrictions não serão aplicadas.
 
 ![alt text](doc/img/rapidpro.png "Title")
 
-Cada organização(**temba.org.Org**) pode ser vinculada a um país(**temba.locations.BoundaryAlias**),
+Cada organização(**temba.orgs.Org**) pode ser vinculada a um país(**temba.locations.BoundaryAlias**),
 _que atualmente é opcional_.
 
 Ao cadastrar um novo usuário para uma Org, temos que vinculá-lo a um estado do país da Org.
