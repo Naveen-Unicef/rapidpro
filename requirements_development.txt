@@ -1,4 +1,4 @@
--r pip-freeze
+-r pip-freeze.txt
 werkzeug
 ipython
 django-debug-toolbar
