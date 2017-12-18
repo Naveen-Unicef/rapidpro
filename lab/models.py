@@ -79,9 +79,12 @@ class GroupAssociation(models.Model):
         return '{}({})'.format(self.group.name, self.content_type.model)
 
 
-class ContactOrg(models.Model):
-    contact = models.ForeignKey(Contact)
-    org = models.ForeignKey(Org)
+class ContactSecondaryOrg(models.Model):
+    contact = models.OneToOneField(Contact, on_delete=models.CASCADE, related_name='secondary_org')
+    org = models.ForeignKey(Org, on_delete=models.CASCADE, related_name='contact_secondary_org')
+
+    def __str__(self):
+        return '{}.{}'.format(self.contact, self.org)
 
 
 ###################################################################################################

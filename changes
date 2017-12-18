@@ -1,0 +1,16 @@
+Duplicado channel(com base nos channels da org pai)
+Alterada org do channel duplicado para a sub org.
+    for channel in org.channels.all():
+        channel.pk = None
+        channel.uuid = uuid.uuid4()
+        channel.org = new_org
+        channel.save()
+        new_org.channels.add(channel)
+
+Alterada a org do contato
+Removido do grupo original:
+    for contact_group in contact.all_groups.filter(org=india):
+        contact_group.remove(contact)
+Adicionado ao grupo all contacts da nova org:
+    all_contacts_group = new_org.all_groups.filter(name__icontains='all').first()
+    all_contacts_group.contacts.add(contact)

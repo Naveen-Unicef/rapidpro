@@ -1301,6 +1301,11 @@ class Msg(models.Model):
 
         # set the preferred channel for this contact
         contact.set_preferred_channel(channel)
+        try:
+            print('change msg to secondary org')
+            org = contact.secondary_org.org
+        except Exception as e:
+            print(e)
 
         # and update this URN to make sure it is associated with this channel
         if contact_urn:
