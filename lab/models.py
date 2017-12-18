@@ -12,6 +12,7 @@ from django.dispatch.dispatcher import receiver
 
 from lab.utils import database_user_exists
 from lab.utils import username_to_database
+from temba.contacts.models import Contact
 from temba.flows.models import Flow
 from temba.orgs.models import Org
 
@@ -78,12 +79,17 @@ class GroupAssociation(models.Model):
         return '{}({})'.format(self.group.name, self.content_type.model)
 
 
+class ContactOrg(models.Model):
+    contact = models.ForeignKey(Contact)
+    org = models.ForeignKey(Org)
+
+
 ###################################################################################################
 # Signals
 ###################################################################################################
 
-@receiver(post_save, sender=Org)
-@receiver(post_save, sender=Flow)
+# @receiver(post_save, sender=Org)
+# @receiver(post_save, sender=Flow)
 def create_group(sender, instance, **kwargs):
     ct = ContentType.objects.get_for_model(sender)
     state = instance.created_by.state
@@ -99,13 +105,12 @@ def create_group(sender, instance, **kwargs):
                                            })
 
 
-@receiver(post_save, sender=User)
+# @receiver(post_save, sender=User)
 def create_database_role(instance, **kwargs):
     """
     Create a new postgres rule for Django user.
     """
     database_username = username_to_database(instance.username)
-    print('creating database role: %s' % database_username)
 
     username, password = database_username, settings.DATABASES['default']['PASSWORD']
 
@@ -114,6 +119,7 @@ def create_database_role(instance, **kwargs):
         "GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO %s"
     )
     if not database_user_exists(username):
+        print('creating database role: %s' % database_username)
         with connection.cursor() as cursor:
             create_user_sql = "CREATE USER %s WITH ENCRYPTED PASSWORD %%s" % username
             cursor.execute(create_user_sql, [password, ])
