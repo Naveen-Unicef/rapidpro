@@ -4,10 +4,12 @@ FROM python:2.7-alpine as builder
 RUN apk update && apk upgrade && apk add alpine-sdk postgresql-dev
 RUN apk add libffi-dev
 RUN apk add libxml2-dev
+RUN apk add py-virtualenv
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY . /usr/src/app/
-RUN pip install -r pip-freeze.txt && pip install -U psycopg2
+RUN virtualenv -p python2.7 env
+RUN ./env/bin/pip install -r pip-freeze.txt && ./env/bin/pip install -U psycopg2
 
 # Deploy stage
 FROM python:2.7-alpine
