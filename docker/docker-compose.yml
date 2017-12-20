@@ -11,3 +11,12 @@ services:
     image: redis:alpine
     ports:
       - "6379:6379"
+  pgadmin:
+    image: dpage/pgadmin4
+    ports:
+      - "8080:80"
+    links:
+      - database
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=eltonplima@pgadmin.com
+      - PGADMIN_DEFAULT_PASSWORD=SuperSecret
