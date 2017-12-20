@@ -2161,6 +2161,15 @@ NodeEditorController = ($rootScope, $scope, $modalInstance, $timeout, $log, Flow
     Flow.saveAction(actionset, definition)
     $modalInstance.close()
 
+  # Move contact to organization
+  $scope.moveToOrg = (org) ->
+
+    $scope.action.type = 'save'
+    $scope.action.org = org
+
+    Flow.saveAction(actionset, $scope.action)
+    $modalInstance.close()
+
   $scope.ok = ->
     $timeout ->
       $('.submit').click()

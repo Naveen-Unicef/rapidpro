@@ -243,6 +243,7 @@ INSTALLED_APPS = (
     'temba.locations',
     'temba.values',
     'temba.airtime',
+    'temba.migrations',
 )
 
 # the last installed app that uses smartmin permissions
@@ -505,6 +506,7 @@ PERMISSIONS = {
                          'schedule',
                          'ussd',
                          ),
+    'migrations.migration': ('import',),
 }
 
 # assigns the permissions that each group should have
@@ -672,7 +674,7 @@ GROUP_PERMISSIONS = {
         'msgs.msg_update',
 
         'triggers.trigger.*',
-
+        'migrations.migration_import',
     ),
     "Editors": (
         'api.apitoken_refresh',

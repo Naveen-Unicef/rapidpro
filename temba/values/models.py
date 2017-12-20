@@ -58,34 +58,24 @@ class Value(models.Model):
     MAX_VALUE_LEN = settings.VALUE_FIELD_SIZE
 
     contact = models.ForeignKey('contacts.Contact', related_name='values')
-
     contact_field = models.ForeignKey('contacts.ContactField', null=True, on_delete=models.SET_NULL,
                                       help_text="The ContactField this value is for, if any")
-
     ruleset = models.ForeignKey('flows.RuleSet', null=True, on_delete=models.SET_NULL,
                                 help_text="The RuleSet this value is for, if any")
-
     run = models.ForeignKey('flows.FlowRun', null=True, related_name='values', on_delete=models.SET_NULL,
                             help_text="The FlowRun this value is for, if any")
-
     rule_uuid = models.CharField(max_length=255, null=True, db_index=True,
                                  help_text="The rule that matched, only appropriate for RuleSet values")
-
     category = models.CharField(max_length=128, null=True,
                                 help_text="The name of the category this value matched in the RuleSet")
-
     string_value = models.TextField(help_text="The string value or string representation of this value")
-
     decimal_value = models.DecimalField(max_digits=36, decimal_places=8, null=True,
                                         help_text="The decimal value of this value if any.")
     datetime_value = models.DateTimeField(null=True,
                                           help_text="The datetime value of this value if any.")
-
     location_value = models.ForeignKey(AdminBoundary, on_delete=models.SET_NULL, null=True,
                                        help_text="The location value of this value if any.")
-
     media_value = models.TextField(max_length=640, null=True, help_text="The media value if any.")
-
     org = models.ForeignKey(Org)
 
     created_on = models.DateTimeField(auto_now_add=True)

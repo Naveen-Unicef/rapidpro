@@ -4997,6 +4997,7 @@ class Action(object):
                 PlayAction.TYPE: PlayAction,
                 TriggerFlowAction.TYPE: TriggerFlowAction,
                 EndUssdAction.TYPE: EndUssdAction,
+                MoveToOrgAction.TYPE: MoveToOrgAction,
             }
 
         action_type = json_obj.get(cls.TYPE)
@@ -7248,3 +7249,181 @@ class InterruptTest(Test):
 
     def evaluate(self, run, msg, context, text):
         return (True, self.TYPE) if run.connection and run.connection.status == ChannelSession.INTERRUPTED else (False, None)
+
+
+# class EmailAction(Action):
+#     """
+#     Sends an email to someone
+#     """
+#     TYPE = 'email'
+#     EMAILS = 'emails'
+#     SUBJECT = 'subject'
+#     MESSAGE = 'msg'
+#
+#     def __init__(self, uuid, emails, subject, message):
+#         super(EmailAction, self).__init__(uuid)
+#
+#         if not emails:
+#             raise FlowException("Email actions require at least one recipient")
+#
+#         self.emails = emails
+#         self.subject = subject
+#         self.message = message
+#
+#     @classmethod
+#     def from_json(cls, org, json_obj):
+#         emails = json_obj.get(EmailAction.EMAILS)
+#         message = json_obj.get(EmailAction.MESSAGE)
+#         subject = json_obj.get(EmailAction.SUBJECT)
+#         return cls(json_obj.get(cls.UUID), emails, subject, message)
+#
+#     def as_json(self):
+#         return dict(type=self.TYPE, uuid=self.uuid, emails=self.emails, subject=self.subject, msg=self.message)
+#
+#     def execute(self, run, context, actionset_uuid, msg, offline_on=None):
+#         from .tasks import send_email_action_task
+#
+#         # build our message from our flow variables
+#         (message, errors) = Msg.evaluate_template(self.message, context, org=run.flow.org)
+#         (subject, errors) = Msg.evaluate_template(self.subject, context, org=run.flow.org)
+#
+#         # make sure the subject is single line; replace '\t\n\r\f\v' to ' '
+#         subject = regex.sub('\s+', ' ', subject, regex.V0)
+#
+#         valid_addresses = []
+#         invalid_addresses = []
+#         for email in self.emails:
+#             if email.startswith('@'):
+#                 # a valid email will contain @ so this is very likely to generate evaluation errors
+#                 (address, errors) = Msg.evaluate_template(email, context, org=run.flow.org)
+#             else:
+#                 address = email
+#
+#             address = address.strip()
+#
+#             if is_valid_address(address):
+#                 valid_addresses.append(address)
+#             else:
+#                 invalid_addresses.append(address)
+#
+#         if not run.contact.is_test:
+#             if valid_addresses:
+#                 on_transaction_commit(lambda: send_email_action_task.delay(run.flow.org.id, valid_addresses, subject, message))
+#         else:
+#             if valid_addresses:
+#                 valid_addresses = ['"%s"' % elt for elt in valid_addresses]
+#                 ActionLog.info(run, _("\"%s\" would be sent to %s") % (message, ", ".join(valid_addresses)))
+#             if invalid_addresses:
+#                 invalid_addresses = ['"%s"' % elt for elt in invalid_addresses]
+#                 ActionLog.warn(run, _("Some email address appear to be invalid: %s") % ", ".join(invalid_addresses))
+#         return []
+
+
+class MoveToOrgAction(Action):
+    """
+    Adds the user to a group
+    """
+    TYPE = 'move_to_org'
+    ORG = 'org'
+
+    def __init__(self, uuid, org):
+        raise Exception('Boom!')
+        super(MoveToOrgAction, self).__init__(uuid)
+
+        if not org:
+            raise FlowException("Org is necessary.")
+
+        self.org = org
+
+    @classmethod
+    def from_json(cls, org, json_obj):
+        raise Exception('Boom!')
+        return cls(json_obj.get(cls.UUID), cls.get_org(org, json_obj))
+
+    @classmethod
+    def get_groups(cls, org, json_obj):
+        raise Exception('Boom!')
+        # for backwards compatibility
+        group_data = json_obj.get(AddToGroupAction.GROUP, None)
+        if not group_data:
+            group_data = json_obj.get(AddToGroupAction.GROUPS)
+        else:
+            group_data = [group_data]
+
+        groups = []
+
+        for g in group_data:
+            if isinstance(g, dict):
+                group_uuid = g.get('uuid', None)
+                group_name = g.get('name')
+
+                group = ContactGroup.get_or_create(org, org.created_by, group_name, group_uuid)
+                groups.append(group)
+            else:
+                if g and g[0] == '@':
+                    groups.append(g)
+                else:  # pragma: needs cover
+                    group = ContactGroup.get_user_group(org, g)
+                    if group:
+                        groups.append(group)
+                    else:
+                        groups.append(ContactGroup.create_static(org, org.get_user(), g))
+        return groups
+
+    def as_json(self):
+        raise Exception('Boom!')
+        groups = []
+        for g in self.groups:
+            if isinstance(g, ContactGroup):
+                groups.append(dict(uuid=g.uuid, name=g.name))
+            else:
+                groups.append(g)
+
+        return dict(type=self.get_type(), uuid=self.uuid, groups=groups)
+
+    def get_type(self):
+        raise Exception('Boom!')
+        return AddToGroupAction.TYPE
+
+    def execute(self, run, context, actionset_uuid, msg, offline_on=None):
+        raise Exception('Boom!')
+        contact = run.contact
+        add = AddToGroupAction.TYPE == self.get_type()
+        user = get_flow_user(run.org)
+
+        if contact:
+            for group in self.groups:
+                if not isinstance(group, ContactGroup):
+                    (value, errors) = Msg.evaluate_template(group, context, org=run.flow.org)
+                    group = None
+
+                    if not errors:
+                        group = ContactGroup.get_user_group(contact.org, value)
+                        if not group:
+                            ActionLog.error(run, _("Unable to find group with name '%s'") % value)
+
+                    else:  # pragma: needs cover
+                        ActionLog.error(run, _("Group name could not be evaluated: %s") % ', '.join(errors))
+
+                if group:
+                    # TODO should become a failure (because it should be impossible) and not just a simulator error
+                    if group.is_dynamic:
+                        # report to sentry
+                        logger.error("Attempt to add/remove contacts on dynamic group '%s' [%d] "
+                                     "in flow '%s' [%d] for org '%s' [%d]"
+                                     % (group.name, group.pk, run.flow.name, run.flow.pk, run.org.name, run.org.pk))
+                        if run.contact.is_test:
+                            if add:
+                                ActionLog.error(run, _("%s is a dynamic group which we can't add contacts to") % group.name)
+                            else:  # pragma: needs cover
+                                ActionLog.error(run, _("%s is a dynamic group which we can't remove contacts from") % group.name)
+                        continue
+
+                    group.org = run.org
+                    group.update_contacts(user, [contact], add)
+                    if run.contact.is_test:
+                        if add:
+                            ActionLog.info(run, _("Added %s to %s") % (run.contact.name, group.name))
+                        else:
+                            ActionLog.info(run, _("Removed %s from %s") % (run.contact.name, group.name))
+        return []

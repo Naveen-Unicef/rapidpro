@@ -437,6 +437,7 @@ app.factory 'Flow', ['$rootScope', '$window', '$http', '$timeout', '$interval', 
         { type:'channel', name:'Set Channel', verbose_name:'Set preferred channel', icon: 'icon-phone', filter:[TEXT, VOICE] }
         { type:'flow', name:'Start Another Flow', verbose_name:'Start another flow', icon: 'icon-tree', flows:true, filter:[TEXT,VOICE] }
         { type:'trigger-flow',   name:'Start Someone in a Flow', verbose_name:'Start someone else in a flow', icon: 'icon-tree', flows:true, filter:[TEXT,VOICE,USSD] }
+        { type:'move_to_org', name:'Move Contact', verbose_name:'Move contact to organization', icon: 'icon-user', filter:ALL }
       ]
 
       @rulesets = [
