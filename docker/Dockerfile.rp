@@ -1,20 +1,27 @@
 # Build stage
-FROM python:2.7-alpine as builder
+FROM python:2.7-alpine3.7 as builder
 
-RUN apk update && apk upgrade && apk add alpine-sdk postgresql-dev
-RUN apk add libffi-dev
-RUN apk add libxml2-dev
-RUN apk add py-virtualenv
-RUN apk add libxslt-dev
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
-COPY . /usr/src/app/
+WORKDIR /tmp
+RUN apk update && apk upgrade && apk add alpine-sdk postgresql-dev libffi-dev libxml2-dev py-virtualenv libxslt-dev
+#RUN apk add gdal gdal-dev --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
+RUN wget http://download.osgeo.org/gdal/1.11.5/gdal-1.11.5.tar.gz
+RUN tar xzf gdal-1.11.5.tar.gz && cd gdal-1.11.5 && ./configure && make -j $(expr $(echo `nproc` + 1))
+RUN pip install virtualenv
+WORKDIR /home/app
 RUN virtualenv -p python2.7 env
+COPY . .
 RUN ./env/bin/pip install -r pip-freeze.txt && ./env/bin/pip install -U psycopg2
 
 # Deploy stage
-FROM python:2.7-alpine
+FROM python:2.7-alpine3.7
 
 WORKDIR /home/app
-RUN pip install gunicorn
-COPY --from=builder /usr/src/app .
+ENV GDAL_LIBRARY_PATH=/usr/local/lib/libgdal.so
+RUN apk update && apk upgrade
+RUN apk add libpq
+RUN apk add gdal --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ --allow-untrusted
+COPY --from=builder /home/app .
+COPY --from=builder /usr/local/lib/libgdal.so /usr/local/lib/libgdal.so
+RUN ./env/bin/pip install gunicorn supervisor
+EXPOSE 8000
+ENTRYPOINT ./env/bin/supervisord -n
