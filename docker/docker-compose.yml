@@ -5,6 +5,7 @@ services:
     image: ilhasoft/rapidpro
     build:
       context: ..
+      dockerfile: docker/Dockerfile
     ports:
       - "4040:4040"
       - "8000:8000"
