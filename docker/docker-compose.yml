@@ -1,8 +1,11 @@
 version: "3.3"
 
 services:
+  rapidpro:
+    image: ilhasoft/rapidpro
   database:
-    image: rapidpro/database
+    image: ilhasoft/rapidpro:database
+    dockerfile: Dockerfile.database
     build:
       context: .
     ports:
