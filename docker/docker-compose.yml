@@ -3,15 +3,16 @@ version: "3.3"
 services:
   rapidpro:
     image: ilhasoft/rapidpro
-    context: ..
+    build:
+      context: ..
     ports:
       - "4040:4040"
       - "8000:8000"
   database:
     image: ilhasoft/rapidpro:database
-    dockerfile: Dockerfile.database
     build:
       context: .
+      dockerfile: Dockerfile.database
     ports:
       - "5432:5432"
   redis:
