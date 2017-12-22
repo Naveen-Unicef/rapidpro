@@ -73,7 +73,7 @@ CACHES = {
 # Need a PostgreSQL database on localhost with postgis extension installed.
 # -----------------------------------------------------------------------------------
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(default='postgres://temba:temba@localhost/temba', conn_max_age=60)
+DATABASES['default'] = dj_database_url.config(default='postgis://temba:temba@localhost/temba', conn_max_age=60)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 INTERNAL_IPS = ('127.0.0.1',)
