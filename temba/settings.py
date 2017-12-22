@@ -21,6 +21,7 @@ from .settings_common import *  # noqa
 #          data = json.loads(line.split('JSON.parse(')[-1].split(');')[0])
 #          data = json.JSONDecoder().decode(data)
 #          pprint(data['Session']['Tunnels']['command_line']['URL'])
+GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'  # This path works well in alpine linux.
 
 DEBUG_TOOLBAR = config('DEBUG_TOOLBAR', default=False, cast=bool)
 
@@ -73,7 +74,7 @@ CACHES = {
 # Need a PostgreSQL database on localhost with postgis extension installed.
 # -----------------------------------------------------------------------------------
 DATABASES = {}
-DATABASES['default'] = dj_database_url.config(default='postgis://temba:temba@localhost/temba', conn_max_age=60)
+DATABASES['default'] = dj_database_url.config(default='postgis://temba:temba@database/temba', conn_max_age=60)
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 INTERNAL_IPS = ('127.0.0.1',)
