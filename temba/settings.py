@@ -21,7 +21,7 @@ from .settings_common import *  # noqa
 #          data = json.loads(line.split('JSON.parse(')[-1].split(');')[0])
 #          data = json.JSONDecoder().decode(data)
 #          pprint(data['Session']['Tunnels']['command_line']['URL'])
-GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so'  # This path works well in alpine linux.
+GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so.20'  # This path works well in alpine linux.
 
 DEBUG_TOOLBAR = config('DEBUG_TOOLBAR', default=False, cast=bool)
 
