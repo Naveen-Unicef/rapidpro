@@ -13,6 +13,7 @@ services:
       - DATABASE_URL=postgis://temba:temba@database/temba
       - REDIS_HOST=redis
       - BROKER_URL=redis://redis:6379/15
+      - ALLOWED_HOSTS=*
   database:
     image: ilhasoft/rapidpro:database
     build:
