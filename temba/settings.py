@@ -16,6 +16,7 @@ from .settings_common import *  # noqa
 # file in the root of the project.
 # -----------------------------------------------------------------------------------
 # Code to get ngrok address dynamically
+# resp = requests.get('http://localhost:4040/')
 # for line in resp.text.split('\n'):
 #      if 'ngrok.io' in line:
 #          data = json.loads(line.split('JSON.parse(')[-1].split(');')[0])
