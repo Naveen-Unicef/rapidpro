@@ -24,6 +24,7 @@ from .settings_common import *  # noqa
 GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so.20'  # This path works well in alpine linux.
 
 DEBUG_TOOLBAR = config('DEBUG_TOOLBAR', default=False, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # -----------------------------------------------------------------------------------
 # Used when creating callbacks for Twilio, Nexmo etc..
