@@ -11,7 +11,7 @@ RUN apk add gdal gdal-dev --update-cache --repository http://dl-3.alpinelinux.or
 RUN pip install virtualenv
 RUN virtualenv -p python2.7 env
 COPY . .
-RUN ./env/bin/pip install -r pip-freeze.txt && ./env/bin/pip install -U psycopg2
+RUN ./env/bin/pip install -r requirements.txt && ./env/bin/pip install -U psycopg2
 
 ###############################################################################
 # Deploy stage
