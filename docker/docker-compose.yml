@@ -9,6 +9,8 @@ services:
     ports:
       - "4040:4040"
       - "8000:8000"
+    environment:
+      DATABASE_URL="postgis://temba:temba@database/temba"
   database:
     image: ilhasoft/rapidpro:database
     build:

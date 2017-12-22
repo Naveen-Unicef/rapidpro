@@ -30,3 +30,7 @@ yarn install
 python manage.py migrate
 python manage.py runserver
 ```
+
+# Main differences from official repo
+* Settings is more flexible and efficient;
+* Our requirements is more concise, clear and follow official good patterns;
