@@ -20,8 +20,9 @@ FROM python:2.7-alpine3.7
 
 WORKDIR /home/app
 RUN apk update && apk upgrade
-RUN apk add libpq libxml2 libxslt libmagic
+RUN apk add libpq libxml2 libxslt libmagic nodejs yarn
 RUN apk add gdal --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
+RUN yarn global add coffeescript less
 COPY --from=builder /home/app .
 RUN pip install gunicorn supervisor
 EXPOSE 8000
