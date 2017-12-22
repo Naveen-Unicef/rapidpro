@@ -24,7 +24,7 @@ RUN apk add libpq libxml2 libxslt libmagic nodejs yarn
 RUN apk add gdal --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
 RUN yarn global add coffeescript less
 COPY --from=builder /home/app .
-RUN env/bin/python manage.py migrate && env/bin/python manage.py collectstatic --noinput
+RUN env/bin/python manage.py collectstatic --noinput
 RUN pip install gunicorn supervisor
 EXPOSE 8000
 ENTRYPOINT /usr/local/bin/supervisord
