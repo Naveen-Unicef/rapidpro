@@ -1,0 +1,3 @@
+-r pip-freeze.txt
+dj-database-url
+python-decouple
