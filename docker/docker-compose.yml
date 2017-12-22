@@ -10,8 +10,9 @@ services:
       - "4040:4040"
       - "8000:8000"
     environment:
-      - DATABASE_URL: postgis://temba:temba@database/temba
-      - REDIS_HOST: redis
+      - DATABASE_URL=postgis://temba:temba@database/temba
+      - REDIS_HOST=redis
+      - BROKER_URL=redis://redis:6379/15
   database:
     image: ilhasoft/rapidpro:database
     build:

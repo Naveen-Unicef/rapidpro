@@ -35,6 +35,7 @@ CELERY_ALWAYS_EAGER = config('CELERY_ALWAYS_EAGER', default=False, cast=bool)
 IS_PROD = config('IS_PROD', default=True, cast=bool)  # This is really necessary? Why don't use DEBUG?
 CELERY_EAGER_PROPAGATES_EXCEPTIONS = config('CELERY_EAGER_PROPAGATES_EXCEPTIONS', default=False, cast=bool)
 BROKER_BACKEND = config('BROKER_BACKEND', default='redis')
+BROKER_URL = config('BROKER_URL', default=BROKER_URL)
 BRANDING['rapidpro.io']['link'] = 'https://{}'.format(HOSTNAME)
 BRANDING['rapidpro.io']['api_link'] = 'https://{}'.format(HOSTNAME)
 BRANDING['rapidpro.io']['docs_link'] = 'https://{}'.format(HOSTNAME)
