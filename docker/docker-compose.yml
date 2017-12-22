@@ -11,6 +11,7 @@ services:
       - "8000:8000"
     environment:
       - DATABASE_URL: postgis://temba:temba@database/temba
+      - REDIS_HOST: redis
   database:
     image: ilhasoft/rapidpro:database
     build:

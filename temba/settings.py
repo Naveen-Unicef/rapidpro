@@ -63,7 +63,9 @@ INSTALLED_APPS += ('lab', )
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://%s:%s/%s" % (REDIS_HOST, REDIS_PORT, REDIS_DB),
+        "LOCATION": "redis://%s:%s/%s" % (config('REDIS_HOST', REDIS_HOST),
+                                          config('REDIS_PORT', REDIS_PORT),
+                                          config('REDIS_DB', REDIS_DB)),
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
         }
