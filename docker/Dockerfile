@@ -29,4 +29,5 @@ RUN pip install gunicorn supervisor
 RUN touch ngrok.yml && mkdir /root/.ngrok2
 COPY ngrok.yml /root/.ngrok2/
 EXPOSE 8000
-ENTRYPOINT /usr/local/bin/supervisord
+RUN chmod +x docker/entrypoint.sh
+ENTRYPOINT /home/app/docker/entrypoint.sh
