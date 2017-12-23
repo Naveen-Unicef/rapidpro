@@ -1,0 +1,2 @@
+-r pip-freeze.txt
+python-decouple
