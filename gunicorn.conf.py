@@ -11,3 +11,6 @@ proc_name = 'rapidpro'
 default_proc_name = proc_name
 chdir = current_path
 python_path = ','.join([os.path.join(current_path, 'env'),])
+loglevel = 'info'
+accesslog = '/dev/stdout'
+errorlog = '/dev/stderr'
