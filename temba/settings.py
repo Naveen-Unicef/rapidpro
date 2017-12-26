@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 import copy
 import warnings
 
-import dj_database_url
+from dj_database_url import parse as db_url
 from decouple import config
 
 # Nyaruka settings.
@@ -78,8 +78,11 @@ CACHES = {
 # -----------------------------------------------------------------------------------
 # Need a PostgreSQL database on localhost with postgis extension installed.
 # -----------------------------------------------------------------------------------
-DATABASES = {}
-DATABASES['default'] = dj_database_url.config(default='postgis://temba:temba@database/temba', conn_max_age=60)
+DATABASES = {
+    'default': config('DATABASE_URL',
+                      default='postgis://temba:temba@localhost/temba',
+                      cast=db_url)
+}
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
 INTERNAL_IPS = ('127.0.0.1',)
