@@ -7,12 +7,12 @@ from django.db import models
 from django.db import transaction
 from django.utils import timezone
 
+from lab.exceptions import CannotMoveContact
 from temba.channels.models import Channel
 from temba.contacts.models import Contact
-from temba.msgs.models import Msg
 from temba.orgs.models import Org
 
-
+# TODO: Record a historic of movimentations. previous_org, current_org, timestamp
 class ContactSecondaryOrg(models.Model):
     contact = models.OneToOneField(Contact, on_delete=models.CASCADE, related_name='secondary_org')
     org = models.ForeignKey(Org, on_delete=models.CASCADE, related_name='contact_secondary_org')
@@ -32,13 +32,14 @@ def move_contact_to_org(contact, new_org):
         # Copy ContactFields
         for value in contact.values.distinct('org'):
             contact_field = value.contact_field
-            contact_field.pk = None
-            contact_field.org = new_org
-            contact_field.uuid = uuid.uuid4()
-            contact_field.save()
+            if contact_field is not None:
+                contact_field.pk = None
+                contact_field.org = new_org
+                contact_field.uuid = uuid.uuid4()
+                contact_field.save()
+                value.contact_field = contact_field
             value.pk = None
             value.org = new_org
-            value.contact_field = contact_field
             value.ruleset = None
             value.run = None
             value.save()

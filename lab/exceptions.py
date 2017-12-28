@@ -1,0 +1,2 @@
+class CannotMoveContact(Exception):
+    pass
