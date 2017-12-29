@@ -84,6 +84,8 @@ DATABASES = {
                       cast=db_url)
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
+DATABASES['direct'] = DATABASES['default'].copy()
+DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
 
 INTERNAL_IPS = ('127.0.0.1',)
 
