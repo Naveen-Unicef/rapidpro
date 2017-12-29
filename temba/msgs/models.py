@@ -212,13 +212,13 @@ class Broadcast(models.Model):
 
     is_active = models.BooleanField(default=True, help_text="Whether this broadcast is active")
 
-    created_by = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_creations",
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_creations",
                                    help_text="The user which originally created this item")
 
     created_on = models.DateTimeField(default=timezone.now, blank=True, editable=False, db_index=True,
                                       help_text=_("When this broadcast was created"))
 
-    modified_by = models.ForeignKey(User, related_name="%(app_label)s_%(class)s_modifications",
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="%(app_label)s_%(class)s_modifications",
                                     help_text="The user which last modified this item")
 
     modified_on = models.DateTimeField(auto_now=True,
@@ -1311,6 +1311,10 @@ class Msg(models.Model):
 
         # set the preferred channel for this contact
         contact.set_preferred_channel(channel)
+
+        # Send message to secondary organization. If exists.
+        if hasattr(contact, 'secondary_org'):
+            org = contact.secondary_org.org
 
         # and update this URN to make sure it is associated with this channel
         if contact_urn:

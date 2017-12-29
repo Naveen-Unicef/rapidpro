@@ -169,6 +169,9 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'lab.middleware.DatabaseUserMiddleware'
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'temba.middleware.BrandingMiddleware',
     'temba.middleware.OrgTimezoneMiddleware',
@@ -240,6 +243,7 @@ INSTALLED_APPS = (
     'temba.locations',
     'temba.values',
     'temba.airtime',
+    'temba.migrations',
 )
 
 # the last installed app that uses smartmin permissions
@@ -298,10 +302,10 @@ BRANDING = {
         'welcome_topup': 1000,
         'email': 'join@rapidpro.io',
         'support_email': 'support@rapidpro.io',
-        'link': 'https://app.rapidpro.io',
-        'api_link': 'https://api.rapidpro.io',
-        'docs_link': 'http://docs.rapidpro.io',
-        'domain': 'app.rapidpro.io',
+        'link': 'https://60d6f294.ngrok.io',
+        'api_link': 'https://60d6f294.ngrok.io',
+        'docs_link': 'https://60d6f294.ngrok.io',
+        'domain': '60d6f294.ngrok.io',
         'favico': 'brands/rapidpro/rapidpro.ico',
         'splash': '/brands/rapidpro/splash.jpg',
         'logo': '/brands/rapidpro/logo.png',
@@ -495,6 +499,7 @@ PERMISSIONS = {
                          'schedule',
                          'ussd',
                          ),
+    'migrations.migration': ('import',),
 }
 
 # assigns the permissions that each group should have
@@ -660,7 +665,7 @@ GROUP_PERMISSIONS = {
         'msgs.msg_update',
 
         'triggers.trigger.*',
-
+        'migrations.migration_import',
     ),
     "Editors": (
         'api.apitoken_refresh',

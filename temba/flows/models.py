@@ -248,7 +248,7 @@ class Flow(TembaModel):
     saved_on = models.DateTimeField(auto_now_add=True,
                                     help_text=_("When this item was saved"))
 
-    saved_by = models.ForeignKey(User, related_name="flow_saves",
+    saved_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="flow_saves",
                                  help_text=_("The user which last saved this flow"))
 
     base_language = models.CharField(max_length=4, null=True, blank=True,
@@ -4761,6 +4761,7 @@ class Action(object):
                 PlayAction.TYPE: PlayAction,
                 TriggerFlowAction.TYPE: TriggerFlowAction,
                 EndUssdAction.TYPE: EndUssdAction,
+                MoveToOrgAction.TYPE: MoveToOrgAction,
             }
 
         action_type = json_obj.get(cls.TYPE)
@@ -7025,3 +7026,54 @@ class InterruptTest(Test):
 
     def evaluate(self, run, msg, context, text):
         return (True, self.TYPE) if run.connection and run.connection.status == ChannelSession.INTERRUPTED else (False, None)
+
+
+class MoveToOrgAction(Action):
+    """
+    Move the contact to another org.
+    """
+    TYPE = 'move_to_org'
+    ORG = 'new_org'
+
+    def __init__(self, new_org):
+        super(MoveToOrgAction, self).__init__(None)
+
+        if not new_org:
+            raise FlowException("Org is necessary.")
+
+        self.new_org = Org.objects.get(name=new_org)
+
+    @classmethod
+    def from_json(cls, org, json_obj):
+        # org = Org.objects.get(name=org)
+        org = json_obj.get(cls.ORG, {})
+        new_org = Org.objects.filter(name=org.get('name')).first()
+        return cls(new_org)
+
+    def as_json(self):
+        new_org = dict(uuid=self.uuid, name=self.new_org.name)
+        return dict(type=self.get_type(), uuid=self.uuid, new_org=new_org)
+
+    def get_type(self):
+        return MoveToOrgAction.TYPE
+
+    def execute(self, run, context, actionset_uuid, msg, offline_on=None):
+        from lab.models import move_contact_to_org
+        contact = run.contact
+        new_org = self.new_org
+        # This code only run if not using simulator.
+        if contact and not contact.is_test:
+            move_contact_to_org(contact, new_org)
+            try:
+                msg = _('Contact {} moved to org {}.')
+                msg = msg.format(contact.uuid, new_org.name)
+                print(msg)
+                ActionLog.info(run, msg)
+            except Exception as exc:
+                ActionLog.error(run, str(exc))
+        # This code only run if using simulator.
+        else:
+            msg = _('FAKE ACTION: Contact {} moved to org {}.')
+            ActionLog.info(run, msg.format(contact.uuid, new_org.name))
+
+        return []

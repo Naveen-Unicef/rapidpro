@@ -48,7 +48,6 @@ from timezone_field import TimeZoneField
 from urlparse import urlparse
 from uuid import uuid4
 
-
 EARLIEST_IMPORT_VERSION = "3"
 
 
@@ -181,16 +180,20 @@ class Org(SmartModel):
     stripe_customer = models.CharField(verbose_name=_("Stripe Customer"), max_length=32, null=True, blank=True,
                                        help_text=_("Our Stripe customer id for your organization"))
 
-    administrators = models.ManyToManyField(User, verbose_name=_("Administrators"), related_name="org_admins",
+    administrators = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Administrators"),
+                                            related_name="org_admins",
                                             help_text=_("The administrators in your organization"))
 
-    viewers = models.ManyToManyField(User, verbose_name=_("Viewers"), related_name="org_viewers",
+    viewers = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Viewers"),
+                                     related_name="org_viewers",
                                      help_text=_("The viewers in your organization"))
 
-    editors = models.ManyToManyField(User, verbose_name=_("Editors"), related_name="org_editors",
+    editors = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Editors"),
+                                     related_name="org_editors",
                                      help_text=_("The editors in your organization"))
 
-    surveyors = models.ManyToManyField(User, verbose_name=_("Surveyors"), related_name="org_surveyors",
+    surveyors = models.ManyToManyField(settings.AUTH_USER_MODEL, verbose_name=_("Surveyors"),
+                                       related_name="org_surveyors",
                                        help_text=_("The users can login via Android for your organization"))
 
     language = models.CharField(verbose_name=_("Language"), max_length=64, null=True, blank=True,
@@ -2149,7 +2152,7 @@ class UserSettings(models.Model):
     """
     User specific configuration
     """
-    user = models.ForeignKey(User, related_name='settings')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='settings')
     language = models.CharField(max_length=8, choices=settings.LANGUAGES, default="en-us",
                                 help_text=_('Your preferred language'))
     tel = models.CharField(verbose_name=_("Phone Number"), max_length=16, null=True, blank=True,

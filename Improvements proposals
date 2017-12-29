@@ -1,0 +1,2 @@
+Update settings to use envvar. This will simplify the process of deploy(12factor).
+Create docker files for redis, celery and database that can be used in dev env.
