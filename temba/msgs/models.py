@@ -1303,7 +1303,6 @@ class Msg(models.Model):
         contact.set_preferred_channel(channel)
 
         # Send message to secondary organization. If exists.
-        print(dir(contact))
         if hasattr(contact, 'secondary_org'):
             org = contact.secondary_org.org
 
