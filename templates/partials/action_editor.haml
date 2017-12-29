@@ -295,8 +295,8 @@
     %div{ng-if:'config.type == "move_to_org"'}
       .label
         -trans "Move to this organization"
-      %select{ng-model:"action.channel",style:"height:34px",name:"channel",ng-options:"channel.uuid as channel.name for channel in channels", required:"", class:"channel", select2:""}
-      %button{ng-click:"saveUpdateContact(action_editor.field.selected, action.value)",class:"submit hide"}
+      %select{ng-model:"new_org",style:"height:34px",name:"new_org",ng-options:"org.name for org in orgs", required:"", class:"method", select2:""}
+      %button{ng-click:"saveOrgToMove(new_org)",class:"submit hide"}
         -trans "Ok"
 
     </ng-form>

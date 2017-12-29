@@ -1018,8 +1018,12 @@ app.factory 'Flow', ['$rootScope', '$window', '$http', '$timeout', '$interval', 
       Revisions.updateRevisions(flowId)
 
       Flow = @
-      $http.get('/flow/json/' + flowId + '/').success (data) ->
 
+      $http.get('/lab/orgs.json').success (orgs) ->
+        console.log('Loading orgs: ' + orgs)
+        Flow.orgs = orgs
+
+      $http.get('/flow/json/' + flowId + '/').success (data) ->
         flow = data.flow
 
         flow.type = window.flow_type

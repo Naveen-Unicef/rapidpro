@@ -971,6 +971,7 @@ NodeEditorController = ($rootScope, $scope, $modalInstance, $timeout, $log, Flow
   # all org languages except default
   $scope.languages = utils.clone(Flow.languages).filter (lang) -> lang.name isnt "Default"
   $scope.channels = Flow.channels
+  $scope.orgs = Flow.orgs
 
   formData = {}
   formData.resthook = ""
@@ -2015,6 +2016,13 @@ NodeEditorController = ($rootScope, $scope, $modalInstance, $timeout, $log, Flow
     Flow.saveAction(actionset, $scope.action)
     $modalInstance.close()
 
+
+  # Saving org to move contact
+  $scope.saveOrgToMove = (org) ->
+    $scope.action.new_org = org
+    $scope.action.type = 'move_to_org'
+    Flow.saveAction(actionset, $scope.action)
+    $modalInstance.close()
 
   # Saving the add to or remove from group actions
   $scope.saveGroups = (actionType, omnibox, allGroups) ->
