@@ -403,9 +403,8 @@
                       .cancel.icon-cancel-circle{ng-click:"upload.abort(); action.uploading=false; action.dirty=true; $event.stopPropagation();"}
 
                 // move contact to org
-                %span.translation{ng-show:'action.type == "move_to_org"'}
-                  .text{ng-class:'{}'}
-                    [[action.org.name]]
+                %span{ng-show:'action.type == "move_to_org"'}
+                  .text
                     [[action.new_org.name]]
 
                 // playing a recording
@@ -461,8 +460,8 @@
                     [[action.name]]
 
 
-          .add.icon-plus-circle2{ng-show:'!hasEndUssd(action_set)', ng-click:'addAction(action_set);'}
-          .source{ng-show:'!hasEndUssd(action_set)', ng-attr-id:'[[action_set.uuid]]_source', drop-scope:'rules', ng-class:'{connected:action_set.destination}', ng-click:'clickActionSource(action_set); $event.stopPropagation()'}
+          .add.icon-plus-circle2{ng-show:'!hasEndUssd(action_set) && action_set.actions[action_set.actions.length - 1].type != "move_to_org"', ng-click:'addAction(action_set);'}
+          .source{ng-show:'!hasEndUssd(action_set) && action_set.actions[action_set.actions.length - 1].type != "move_to_org"', ng-attr-id:'[[action_set.uuid]]_source', drop-scope:'rules', ng-class:'{connected:action_set.destination}', ng-click:'clickActionSource(action_set); $event.stopPropagation()'}
             .recent-messages{ng-show:'action_set._showMessages'}
               .title
                 -trans "Recent Messages"
