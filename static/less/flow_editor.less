@@ -15,6 +15,7 @@
 @color-save-to-contact: #00ac9a;
 @color-start-flow: #c05093;
 @color-trigger-flow: #c05093;
+@color-move-to-org: red;
 
 @color-upload-hover: @flat-mutedgreen;
 
@@ -1022,7 +1023,14 @@
     }
   }
 
-  .email {
+.move_to_org {
+  .title {
+    text-shadow: 0px 1px @color-move-to-org - #222;
+    .bg-gradient(@color-move-to-org, @color-move-to-org - #101010);
+  }
+}
+
+.email {
     .title {
       text-shadow: 0px 1px @color-send-email - #222;
       .bg-gradient(@color-send-email, @color-send-email - #101010);
