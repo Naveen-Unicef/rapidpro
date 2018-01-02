@@ -22,7 +22,8 @@ from .settings_common import *  # noqa
 #          data = json.loads(line.split('JSON.parse(')[-1].split(');')[0])
 #          data = json.JSONDecoder().decode(data)
 #          pprint(data['Session']['Tunnels']['command_line']['URL'])
-GDAL_LIBRARY_PATH = '/usr/lib/libgdal.so.20'  # This path works well in alpine linux.
+GDAL_LIBRARY_PATH = config('GDAL_LIBRARY_PATH', default='/usr/lib/libgdal.so.20')
+GEOS_LIBRARY_PATH = config('GEOS_LIBRARY_PATH', default='/usr/lib/libgeos_c.so.1')
 
 DEBUG_TOOLBAR = config('DEBUG_TOOLBAR', default=False, cast=bool)
 DEBUG = config('DEBUG', default=False, cast=bool)
