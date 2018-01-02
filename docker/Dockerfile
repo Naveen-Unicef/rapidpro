@@ -21,7 +21,7 @@ FROM python:2.7-alpine3.7
 WORKDIR /home/app
 RUN apk update && apk upgrade
 RUN apk add libpq libxml2 libxslt libmagic nodejs yarn
-RUN apk add gdal --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
+RUN apk add gdal geos --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/testing/
 RUN yarn global add coffeescript less
 RUN yarn install
 COPY --from=builder /home/app .
