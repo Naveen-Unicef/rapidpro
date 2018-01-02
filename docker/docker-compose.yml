@@ -58,5 +58,3 @@ services:
     build:
       context: .
       dockerfile: rear.Dockerfile
-    links:
-      - rapidpro
