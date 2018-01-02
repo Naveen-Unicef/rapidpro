@@ -3,6 +3,7 @@ version: "3.3"
 services:
   rapidpro:
     image: ilhasoft/rapidpro
+    restart: always
     build:
       context: ..
       dockerfile: docker/Dockerfile
@@ -19,6 +20,7 @@ services:
       - ALLOWED_HOSTS=*
   database:
     image: ilhasoft/rapidpro:database
+    restart: always
     build:
       context: .
       dockerfile: database.Dockerfile
@@ -28,6 +30,7 @@ services:
       - /root/india/data:/var/lib/postgresql/data
   redis:
     image: redis:alpine
+    restart: always
     ports:
       - "6379:6379"
   pgadmin:
