@@ -1,0 +1,1 @@
+FROM thiagofigueiro/varnish-alpine-docker

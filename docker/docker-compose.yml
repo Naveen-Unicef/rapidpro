@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   rapidpro:
-    image: ilhasoft/rapidpro
+    image: localhost:5000/unicef/rapidpro
     restart: always
     build:
       context: ..
@@ -20,7 +20,7 @@ services:
       - BROKER_URL=redis://redis:6379/15
       - ALLOWED_HOSTS=*
   database:
-    image: ilhasoft/rapidpro:database
+    image: localhost:5000/unicef/rapidpro:database
     restart: always
     build:
       context: .
@@ -30,12 +30,22 @@ services:
     volumes:
       - /root/india/data:/var/lib/postgresql/data
   redis:
-    image: redis:alpine
+    image: localhost:5000/unicef:redis
+    build:
+      dockerfile: redis.Dockerfile
+      context: .
     restart: always
     ports:
       - "6379:6379"
+    deploy:
+      resources:
+        limits:
+          memory: 50M
   pgadmin:
-    image: dpage/pgadmin4
+    image: localhost:5000/unicef:pgadmin4
+    build:
+      dockerfile: pgadmin.Dockerfile
+      context: .
     ports:
       - "8080:80"
     links:
@@ -44,7 +54,10 @@ services:
       - PGADMIN_DEFAULT_EMAIL=eltonplima@pgadmin.com
       - PGADMIN_DEFAULT_PASSWORD=SuperSecret
   varnish:
-    image: thiagofigueiro/varnish-alpine-docker
+    image: localhost:5000/unicef:varnish
+    build:
+      dockerfile: varnish.Dockerfile
+      context: .
     restart: always
     environment:
       - VARNISH_BACKEND_ADDRESS=rear
@@ -54,7 +67,14 @@ services:
     ports:
       - "80:80"
   rear:
+    image: localhost:5000/unicef:nginx-rear
     restart: always
     build:
       context: .
       dockerfile: rear.Dockerfile
+  vanguard:
+    image: localhost:5000/unicef:nginx-vanguard
+    restart: always
+    build:
+      context: .
+      dockerfile: vanguard.Dockerfile

@@ -27,8 +27,8 @@ RUN yarn install
 COPY --from=builder /home/app .
 RUN env/bin/python manage.py collectstatic --noinput
 RUN pip install gunicorn supervisor
-RUN touch ngrok.yml && mkdir /root/.ngrok2
-COPY ngrok.yml /root/.ngrok2/
+RUN mkdir /root/.ngrok2
+COPY docker/ngrok.yml /root/.ngrok2/
 EXPOSE 8000
 RUN chmod +x docker/entrypoint.sh
 ENTRYPOINT /home/app/docker/entrypoint.sh
