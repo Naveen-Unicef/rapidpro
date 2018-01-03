@@ -89,23 +89,27 @@ DATABASES['direct'] = DATABASES['default'].copy()
 DATABASES['default']['DISABLE_SERVER_SIDE_CURSORS'] = True
 
 INTERNAL_IPS = ('127.0.0.1',)
+MIDDLEWARE_CLASSES = ('temba.middleware.ExceptionMiddleware',) + MIDDLEWARE_CLASSES
 
 # -----------------------------------------------------------------------------------
 # Load development apps
 # -----------------------------------------------------------------------------------
 INSTALLED_APPS = INSTALLED_APPS + ('storages',)
 if DEBUG_TOOLBAR:
-    INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar', )
+    try:
+        import debug_toolbar
+        INSTALLED_APPS = INSTALLED_APPS + ('debug_toolbar', )
+        MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE_CLASSES
+    except ImportError:
+        warnings.warn('DEBUG mode is enabled, but debug_toolbar is not found.')
 
 if DEBUG:
-    INSTALLED_APPS = INSTALLED_APPS + ('django_extensions', )
+    try:
+        import django_extensions
+        INSTALLED_APPS = INSTALLED_APPS + ('django_extensions', )
+    except ImportError:
+        warnings.warn('DEBUG mode is enabled, but django_extensions is not found.')
 
-# -----------------------------------------------------------------------------------
-# In development, add in extra logging for exceptions and the debug toolbar
-# -----------------------------------------------------------------------------------
-MIDDLEWARE_CLASSES = ('temba.middleware.ExceptionMiddleware',) + MIDDLEWARE_CLASSES
-if DEBUG_TOOLBAR:
-    MIDDLEWARE_CLASSES = ('debug_toolbar.middleware.DebugToolbarMiddleware',) + MIDDLEWARE_CLASSES
 
 # -----------------------------------------------------------------------------------
 # This setting throws an exception if a naive datetime is used anywhere. (they should
