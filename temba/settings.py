@@ -122,3 +122,6 @@ warnings.filterwarnings('error', r"DateTimeField .* received a naive datetime",
 # Make our sitestatic URL be our static URL on development
 # -----------------------------------------------------------------------------------
 STATIC_URL = '/sitestatic/'
+
+MAGE_API_URL = config('MAGE_API_URL', default='http://mage:8026/api/v1')
+MAGE_AUTH_TOKEN = config('MAGE_AUTH_TOKEN')
