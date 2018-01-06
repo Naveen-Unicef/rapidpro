@@ -14,6 +14,7 @@ services:
       - database
       - redis
       - varnish
+      - mage
     environment:
       - DATABASE_URL=postgis://temba:temba@database/temba
       - REDIS_HOST=redis
@@ -58,3 +59,19 @@ services:
     build:
       context: .
       dockerfile: rear.Dockerfile
+  mage:
+    image: eltonplima/mage:0.1.87
+    restart: always
+    environment:
+      - PRODUCTION=1
+      - DATABASE_URL=${DATABASE_URL:-postgis://temba:temba@database/temba}
+      - REDIS_HOST=${REDIS_HOST:-redis}
+      - REDIS_DATABASE=${REDIS_DATABASE:-3}
+      - TEMBA_HOST=${HOSTNAME:-rapidpro}
+      - TEMBA_AUTH_TOKEN=${TEMBA_AUTH_TOKEN}
+      - TWITTER_API_KEY=${TWITTER_API_KEY}
+      - TWITTER_API_SECRET=${TWITTER_API_SECRET}
+      - SEGMENTIO_WRITE_KEY=${SEGMENTIO_WRITE_KEY}
+      - SENTRY_DSN=${SENTRY_DSN}
+      - LIBRATO_EMAIL=${LIBRATO_EMAIL}
+      - LIBRATO_API_TOKEN=${LIBRATO_API_TOKEN}
