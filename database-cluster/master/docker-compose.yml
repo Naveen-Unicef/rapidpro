@@ -30,8 +30,6 @@ services:
     links:
       - pgslave1
       - pgslave2
-      - pgslave3
-      - pgslave4
       - backup
     volumes:
         - pgmaster:/var/lib/postgresql/data
