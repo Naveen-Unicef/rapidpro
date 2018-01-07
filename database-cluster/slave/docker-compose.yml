@@ -19,6 +19,8 @@ services:
       - pgslave3:/var/lib/postgresql/data
     extra_hosts:
       - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
 
   pgslave4:
     build:
@@ -34,6 +36,10 @@ services:
       - 5433:5432
     volumes:
       - pgslave4:/var/lib/postgresql/data
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
 
 volumes:
   pgslave3:
