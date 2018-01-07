@@ -17,6 +17,8 @@ services:
       - 5432:5432
     volumes:
       - pgslave3:/var/lib/postgresql/data
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
 
   pgslave4:
     build:
