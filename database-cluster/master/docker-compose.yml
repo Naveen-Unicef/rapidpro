@@ -94,6 +94,8 @@ services:
       BACKUP_SCHEDULE: "*/30 */5 * * *"
     volumes:
       - backup:/var/backups
+    ports:
+      - 8080:8080
 
 volumes:
   pgmaster:

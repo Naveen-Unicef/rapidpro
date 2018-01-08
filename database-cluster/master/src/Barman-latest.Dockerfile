@@ -51,7 +51,7 @@ ENV BACKUP_DIR /var/backups
 # ENV POSTGRES_PASSWORD password
 # ENV POSTGRES_DB monkey_db
 
-EXPOSE 22
+EXPOSE 22 8080
 
 COPY ./ssh /home/postgres/.ssh
 RUN chown -R postgres:postgres /home/postgres
