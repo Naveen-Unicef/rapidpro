@@ -27,6 +27,12 @@ services:
       cluster:
         aliases:
           - rapidpro
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
 ###################################################################################################
 # start cache definitions
@@ -47,6 +53,13 @@ services:
       cluster:
         aliases:
           - redis
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
+
 ###################################################################################################
 # end cache definitions
 ###################################################################################################
@@ -67,6 +80,12 @@ services:
       cluster:
         aliases:
           - pgadmin
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
 ###################################################################################################
 # start http stack definitions
@@ -88,6 +107,12 @@ services:
       cluster:
         aliases:
           - varnish
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
   rear:
     image: localhost:5000/unicef:nginx-rear
@@ -99,6 +124,12 @@ services:
       cluster:
         aliases:
           - rear
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
   vanguard:
     image: localhost:5000/unicef:nginx-vanguard
@@ -112,6 +143,12 @@ services:
       cluster:
         aliases:
           - vanguard
+    extra_hosts:
+      - "pgmaster:${PGMASTER_ADDR}"
+      - "pgslave1:${PGSLAVE1_ADDR}"
+      - "pgslave2:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 ###################################################################################################
 # end http stack definitions
 ###################################################################################################
