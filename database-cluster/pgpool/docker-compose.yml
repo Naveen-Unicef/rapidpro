@@ -33,5 +33,5 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"

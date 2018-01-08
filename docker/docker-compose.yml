@@ -31,8 +31,8 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"
 
 ###################################################################################################
 # start cache definitions
@@ -57,8 +57,8 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"
 
 ###################################################################################################
 # end cache definitions
@@ -84,8 +84,8 @@ services:
 #      - "pgmaster:${PGMASTER_ADDR}"
 #      - "pgslave1:${PGSLAVE1_ADDR}"
 #      - "pgslave2:${PGSLAVE2_ADDR}"
-#      - "pgslave3:${PGSLAVE1_ADDR}"
-#      - "pgslave4:${PGSLAVE2_ADDR}"
+#      - "pgslave3:${PGSLAVE3_ADDR}"
+#      - "pgslave4:${PGSLAVE4_ADDR}"
 #
 ###################################################################################################
 # start http stack definitions
@@ -111,8 +111,8 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"
 
   rear:
     image: localhost:5000/unicef:nginx-rear
@@ -128,8 +128,8 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"
 
   vanguard:
     image: localhost:5000/unicef:nginx-vanguard
@@ -147,8 +147,8 @@ services:
       - "pgmaster:${PGMASTER_ADDR}"
       - "pgslave1:${PGSLAVE1_ADDR}"
       - "pgslave2:${PGSLAVE2_ADDR}"
-      - "pgslave3:${PGSLAVE1_ADDR}"
-      - "pgslave4:${PGSLAVE2_ADDR}"
+      - "pgslave3:${PGSLAVE3_ADDR}"
+      - "pgslave4:${PGSLAVE4_ADDR}"
 ###################################################################################################
 # end http stack definitions
 ###################################################################################################
