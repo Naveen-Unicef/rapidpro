@@ -44,7 +44,7 @@ services:
     links:
       - database
     environment:
-      - PGADMIN_DEFAULT_EMAIL=eltonplima@pgadmin.com
+      - PGADMIN_DEFAULT_EMAIL=dba@rapidpro.unicef.in
       - PGADMIN_DEFAULT_PASSWORD=SuperSecret
   varnish:
     image: thiagofigueiro/varnish-alpine-docker
@@ -68,7 +68,7 @@ services:
       - PRODUCTION=1
       - DATABASE_URL=${DATABASE_URL:-postgis://temba:temba@database/temba}
       - REDIS_HOST=${REDIS_HOST:-redis}
-      - REDIS_DATABASE=${REDIS_DATABASE:-3}
+      - REDIS_DATABASE=${REDIS_DATABASE:-8}
       - TEMBA_HOST=${HOSTNAME:-rapidpro}
       - TEMBA_AUTH_TOKEN=${TEMBA_AUTH_TOKEN}
       - TWITTER_API_KEY=${TWITTER_API_KEY}
