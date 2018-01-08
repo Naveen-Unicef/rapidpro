@@ -14,7 +14,7 @@ services:
       NODE_PRIORITY: 200  # (default: 100)
       CLEAN_OVER_REWIND: 1
     ports:
-      - 5432:5432
+      - 5431:5432
     volumes:
       - pgslave3:/var/lib/postgresql/data
     extra_hosts:
@@ -33,7 +33,7 @@ services:
       CLUSTER_NODE_NETWORK_NAME: pgslave4 # (default: hostname of the node)
       #USE_REPLICATION_SLOTS: 0
     ports:
-      - 5433:5432
+      - 5435:5432
     volumes:
       - pgslave4:/var/lib/postgresql/data
     extra_hosts:

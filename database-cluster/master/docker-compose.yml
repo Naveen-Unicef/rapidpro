@@ -33,6 +33,9 @@ services:
       - backup
     volumes:
         - pgmaster:/var/lib/postgresql/data
+    extra_hosts:
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
 #<<< Branch 1
   pgslave1:
@@ -51,6 +54,9 @@ services:
       - 5433:5432
     volumes:
       - pgslave1:/var/lib/postgresql/data
+    extra_hosts:
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
   # Add more slaves if required
   pgslave2:
@@ -67,6 +73,9 @@ services:
       - 5434:5432
     volumes:
       - pgslave2:/var/lib/postgresql/data
+    extra_hosts:
+      - "pgslave3:${PGSLAVE1_ADDR}"
+      - "pgslave4:${PGSLAVE2_ADDR}"
 
 #>>> Branch 1
 
