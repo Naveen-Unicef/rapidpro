@@ -15,7 +15,7 @@ services:
       CHECK_PGCONNECT_TIMEOUT: 3 #timout for checking if primary node is healthy
       SSH_ENABLE: 1
       DB_USERS: ${DB_USERS:-monkey_user:monkey_pass} # in format user:password[,user:password[...]]
-      BACKENDS: "0:pgmaster:5430:1::ALLOW_TO_FAILOVER,1:pgslave1:5433:::,3:pgslave3:5431:::,2:pgslave2:5434:::,4:pgslave4:5435:::" #,4:pgslaveDOES_NOT_EXIST::::
+      BACKENDS: "0:pgmaster:5432:1::ALLOW_TO_FAILOVER,1:pgslave1:5433:::,3:pgslave3:5431:::,2:pgslave2:5434:::,4:pgslave4:5435:::" #,4:pgslaveDOES_NOT_EXIST::::
                 # in format num:host:port:weight:data_directory:flag[,...]
                 # defaults:
                 #   port: 5432
