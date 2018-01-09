@@ -124,4 +124,6 @@ warnings.filterwarnings('error', r"DateTimeField .* received a naive datetime",
 STATIC_URL = '/sitestatic/'
 
 MAGE_API_URL = config('MAGE_API_URL', default='http://mage:8026/api/v1')
-MAGE_AUTH_TOKEN = config('MAGE_AUTH_TOKEN')
+MAGE_AUTH_TOKEN = config('MAGE_AUTH_TOKEN', default='gsimog8ywUx8AyzyZFFTdH0BUIGRalgP')
+TWITTER_API_KEY = config('TWITTER_API_KEY', 'MISSING_TWITTER_API_KEY')
+TWITTER_API_SECRET = config('TWITTER_API_SECRET', 'MISSING_TWITTER_API_SECRET')
